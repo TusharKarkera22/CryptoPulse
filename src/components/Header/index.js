@@ -1,10 +1,37 @@
-import React from "react";
-import "./styles.css"
+import React, { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { createClient } from '@supabase/supabase-js';
+import { Auth } from '@supabase/auth-ui-react';
+import { ThemeSupa } from '@supabase/auth-ui-shared';
 import Button from "../Common/Button";
 import TemporaryDrawer from "./drawer";
-import { Link, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+const supabase = createClient("https://yuvdcqswxyuyscdvgkhr.supabase.co", "YOUR_API_KEY");
 
 export default function Header() {
+    const navigate = useNavigate();
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    navigate('/login')
+  };
+
     return (
         <div className="navbar">
             <Link to={'/'} className="logo">
@@ -23,6 +50,9 @@ export default function Header() {
                 <NavLink to="/dashboard">
                     <Button text={"Dashboard"} onClick={() => console.log('hii')} outline={true}/>
                 </NavLink>
+                
+                    <Button text={"Logout"} onClick={handleLogout} outline={true}/>
+                
             </div>
             <div className="mobile-drawer">
                 <TemporaryDrawer />

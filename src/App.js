@@ -5,6 +5,7 @@ import ComparePage from './pages/Compare';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CoinPage from './pages/Coin';
 import WatchlistPage from './pages/Watchlist';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/coin/:id' element={<CoinPage />} />
         <Route path='/compare' element={<ComparePage />} />
         <Route path='/watchlist' element={<WatchlistPage />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

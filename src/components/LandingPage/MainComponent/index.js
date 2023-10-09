@@ -66,7 +66,7 @@ function MainComponent() {
                         delay: 1.5
                     }}
                 >
-                    <Link to="/dashboard">
+                    <Link to="/login">
                         <Button text={'Login'} onClick={() => console.log('Hii')} />
                     </Link>
                     <Button text={'SignIn'} outline={true} onClick={handleShareClick} />
